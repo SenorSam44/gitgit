@@ -1,7 +1,7 @@
 import store from 'store';
 import axios from 'axios';
 import joinPath from 'path.join';
-import config from '../../config';
+import config from '../vue.config';
 
 window.axios = axios;
 window.store = store;
@@ -52,7 +52,7 @@ function getGithubCode(_url, REDIRECT, callback) {
 export default {
 
   login(callback) {
-    const url = `https://github.com/login/oauth/authorize?client_id=${config.clientId}`;
+    const url = `https://github.com/login/oauth/authorize?client_id=${process.env.VUE_APP_GITHUB_CLIENT_ID}`;
     getGithubCode(url, config.redirectUri, callback);
   },
 

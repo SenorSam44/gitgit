@@ -13,6 +13,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import axios from 'axios';
 import auth from '../lib/auth';
+import pathJoin from 'path.join';
 
 export default {
   name: 'Home',
@@ -22,6 +23,10 @@ export default {
   data(){
     return {
       isAuthenticated : false,
+      userinfo :{
+        username: null,
+        avatar: null
+      }
     }
   },
   methods: {
@@ -32,14 +37,13 @@ export default {
       // let url = "https://localhost:8080/login/oauth/authorize"+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
 
 
-      await axios.get(url, {
+      await axios.get(pathJoin('https://api.github.com', 'user'), {
         headers: {
           Authorization: `token ${token}`,
         },
       }).then((response) => {
         this.isAuthenticated = true;
 
-        // TODO: do stuff here, like setting user info variables
         this.userInfo.username = response.data.login;
         this.userInfo.avatar = response.data.avatar_url;
       }).catch(() => {
