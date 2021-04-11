@@ -16,39 +16,34 @@ export default {
   components: {
     HelloWorld
   },
-  methods:{
-    async loginWithGithub(){
-      // let url = "https://cors-anywhere.herokuapp.com/"+process.env.VUE_APP_GITHUB_API+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
+  methods: {
+    // async loginWithGithub(){
+    //   // let url = "https://cors-anywhere.herokuapp.com/"+process.env.VUE_APP_GITHUB_API+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
+    //
+    //   let url = "https://github.com/login/oauth/authorize"+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
+    //
+    //
+    //   await axios.get(url).then( response =>{
+    //     console.log(response);
+    //   })
+    //
+    //   // let url = 'https://github.com/login/device/code';
+    //   // let data = {
+    //   //   client_id: process.env.VUE_APP_GITHUB_CLIENT_ID
+    //   // }
+    //   //
+    //   // axios.post(url, data).then( response => {
+    //   //   console.log(response);
+    //   // })
+  // }
+    loginWithGithub(){
+      let url = process.env.VUE_APP_GITHUB_API+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
 
-      let url = "https://localhost:8080/login/oauth/authorize"+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
-
-      const config = {
-        crossdomain: true,
-        baseURL: 'http://localhost:8080',
-        timeout: 10000,
-        withCredentials: true,
-        // transformRequest: [(data) => JSON.stringify(data.data)],
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:8080/',
-        }
-
-      }
-
-      await axios.get(url, config).then( response =>{
-        console.log(response);
+      fetch(url).then((response) =>{
+        console.log(response)
       })
-
-      // let url = 'https://github.com/login/device/code';
-      // let data = {
-      //   client_id: process.env.VUE_APP_GITHUB_CLIENT_ID
-      // }
-      //
-      // axios.post(url, data).then( response => {
-      //   console.log(response);
-      // })
     }
+
   }
 }
 </script>

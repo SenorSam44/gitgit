@@ -1,5 +1,5 @@
 module.exports = {
     devServer:{
-        proxy: "https://github.com"
+        proxy: "https://github.com/"
     }
 }
