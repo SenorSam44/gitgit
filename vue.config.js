@@ -1,5 +1,5 @@
 module.exports = {
     devServer:{
-        proxy: "https://github.com/"
+        proxy: "https://cors-anywhere.herokuapp.com/"
     }
 }

@@ -3,6 +3,7 @@
     <h1>Login with github</h1>
 
     <button @click="loginWithGithub">Login with github </button>
+    <div id="git-login-page"></div>
   </div>
 </template>
 
@@ -11,34 +12,45 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import axios from 'axios';
+import auth from '../lib/auth';
+
 export default {
   name: 'Home',
   components: {
     HelloWorld
   },
-  methods:{
-    async loginWithGithub(){
-      let url = "https://cors-anywhere.herokuapp.com/"+process.env.VUE_APP_GITHUB_API+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
+  data(){
+    return {
+      isAuthenticated : false,
+    }
+  },
+  methods: {
+    async loginWithGithub() {
+      const token = auth.getToken();
+      let url = process.env.VUE_APP_GITHUB_API + "?client_id=" + process.env.VUE_APP_GITHUB_CLIENT_ID + "&redirect_uri=" + process.env.VUE_APP_GITHUB_API_CALLBACK
 
       // let url = "https://localhost:8080/login/oauth/authorize"+"?client_id="+process.env.VUE_APP_GITHUB_CLIENT_ID+"&redirect_uri="+process.env.VUE_APP_GITHUB_API_CALLBACK
 
 
-      await axios.get(url,{
-        useCredentails: true,
-      }).then( response =>{
-        console.log(response);
-      })
+      await axios.get(url, {
+        headers: {
+          Authorization: `token ${token}`,
+        },
+      }).then((response) => {
+        this.isAuthenticated = true;
 
-      // let url = 'https://github.com/login/device/code';
-      // let data = {
-      //   client_id: process.env.VUE_APP_GITHUB_CLIENT_ID
-      // }
-      //
-      // axios.post(url, data).then( response => {
-      //   console.log(response);
-      // })
+        // TODO: do stuff here, like setting user info variables
+        this.userInfo.username = response.data.login;
+        this.userInfo.avatar = response.data.avatar_url;
+      }).catch(() => {
+        this.logout();
+      });
+    },
+    logout(){
+      this.isAuthenticated = false;
+      auth.logout();
     }
-  }
+  },
 }
 </script>
 
