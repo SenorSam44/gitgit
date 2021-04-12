@@ -1,7 +1,7 @@
 import store from 'store';
 import axios from 'axios';
 import joinPath from 'path.join';
-import config from '../vue.config';
+import config from '../config';
 
 window.axios = axios;
 window.store = store;
@@ -24,6 +24,7 @@ function authenticateAgainstServer(code, callback) {
   const url = joinPath(config.authUrl, code);
   axios.get(url).then((resp) => {
     store.set('token', resp.data.token);
+    console.log(resp.data.token);
     callback(resp.data.token, null);
   }).catch((e) => {
     callback(null, e);
